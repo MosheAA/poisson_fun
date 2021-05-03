@@ -1,4 +1,4 @@
-function [ ppm, e1, e2, stats ] = runpoisson( I, qRev, sigNewRev, time)
+function [ ppm, e1, e2, stats ] = runpoisson( I, qRev, sigNewRev )
 
 % POISSON COUNT DATA 
 % This function runs subroutines to analyze count data
