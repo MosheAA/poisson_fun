@@ -1,4 +1,4 @@
-function [qnew, signewsq,ppmr] = runpoisson(I, qstartfromreverse, signewfromreverse, time)
+function [ ppm, e1, e2, stats ] = runpoisson( I, qRev, sigNewRev, time)
 
 % POISSON COUNT DATA 
 % This function runs subroutines to analyze count data
@@ -26,8 +26,8 @@ function [qnew, signewsq,ppmr] = runpoisson(I, qstartfromreverse, signewfromreve
 %        (A. C. Smith,  01/03/05)
 %
 %-----------------------------------------------------------------
-qguess              = qstartfromreverse; %start mean
-sigsqguess          = signewfromreverse; %start variance
+qguess              = qRev; %start mean
+sigsqguess          = sigNewRev; %start variance
 %--------------------------------------------------------------- 
   number_of_steps  = 2000; %maximum time steps for EM
   ccrt  = 1e-5;            %convergence criteria for the EM 
@@ -73,14 +73,18 @@ end
 %take off the zeroth value as this is not estimated 
 qnew(1) =[]; signewsq(1) = []; a(1) =[];
 qnew(1) = qguess; 
-[e1, ppm, e2] = getcls(qnew, signewsq, 1);
+[e1, ppm, e2] = getcls( qnew, signewsq, 1 );
+
+stats.qNew = qnew;
+stats.sigqnew = signewsq;
+stats.a = a;
 %-----------------------------------------------------------------------
 %------------------------------------------------------------------------------
 % Get firing rates (spikes/s or Hz)
- Ir           = (I*1000)/time;
- ppmr         = (ppm*1000)/time;
- e1r          = (e1*1000)/time;
- e2r          = (e2*1000)/time;
+%  Ir           = (I*1000)/time;
+%  ppmr         = (ppm*1000)/time;
+%  e1r          = (e1*1000)/time;
+%  e2r          = (e2*1000)/time;
 %---------------------------------------------------------------------------
 % %plot up the figures
 %  figure(1); subplot(211);
