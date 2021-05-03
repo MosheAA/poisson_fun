@@ -76,7 +76,7 @@ qnew(1) = qguess;
 [e1, ppm, e2] = getcls( qnew, signewsq, 1 );
 
 stats.qNew = qnew;
-stats.sigqnew = signewsq;
+stats.sigqNew = signewsq;
 stats.a = a;
 %-----------------------------------------------------------------------
 %------------------------------------------------------------------------------

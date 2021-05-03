@@ -3,25 +3,21 @@ clear all
 close all
 clc
 
-load('Testpoissonworkspace.mat')
+load('testData.mat')
 binDur = 0.010; % 5 milisecond bins
 bins = -2 : binDur : 2 - binDur;
 muaRate = histcounts( MUA_so, bins );
 
 time = 1000;
 [ qRev, sigRev ] = runpoissonPRE( muaRate, time );
-[ ppm, e1, e2 ] = runpoisson( muaRate, qRev, sigRev, time );
+[ ppm, e1, e2, stats ] = runpoisson( muaRate, qRev, sigRev );
 
 %% Plot the estimate and its CIs.
 figure
+subplot( 3, 1, 1 )
 t2plot = bins( 1 : end - 1 );
 bar( t2plot, muaRate, 'FaceColor', [ 0.6 0.6 0.6 ], 'EdgeColor', 'none' )
 hold on
-% plot( t2plot, e1, 'b' )
-% plot( t2plot, ppm, 'r' )
-% plot( t2plot, e2, 'b' )
-
-%     x_vector = [options.x_axis', fliplr(options.x_axis')];
 t2patch = [ t2plot'; fliplr( t2plot )' ];
 y2patch = [ e1'; fliplr( e2 )' ];
 hPatch = fill( t2patch, y2patch, 'r' );
@@ -31,7 +27,10 @@ hold on;
 plot( t2plot, ppm, 'color', 'r', ...
     'LineWidth', 1.5 );
 hold off;
+box off
 
+subplot( 3, 1, [ 2 3 ] )
+trialtotrial( stats )
 
 %% Original testing from anne's paper. Will reporoduce figure eight.
 % I = [6     5     9     5     3     5     8     5     9     1     6     7     5     6     9 ...
